@@ -1,29 +1,33 @@
 class Solution {
-    public int myAtoi(String s) {
-        s = s.trim();
-        int sign = 1, i=0;
-        long res =0;
-        if(s.length() == 0) return 0;
-        if(s.charAt(0) == '-'){
-            sign = -1;
-            i++;
-        }else if(s.charAt(0) == '+'){
+    static final int INT_MIN_VAL = -2147483648;
+    static final int INT_MAX_VAL = 2147483647;
+
+
+    static int helper(String s, int i, long num, int sign) {
+
+        if (i >= s.length() || !Character.isDigit(s.charAt(i)))
+            return (int)(sign * num);
+
+        num = num * 10 + (s.charAt(i) - '0');
+
+        if (sign * num <= INT_MIN_VAL) return INT_MIN_VAL;
+        if (sign * num >= INT_MAX_VAL) return INT_MAX_VAL;
+
+       
+        return helper(s, i + 1, num, sign);
+    }
+
+    static int myAtoi(String s) {
+        int i = 0;
+
+        while (i < s.length() && s.charAt(i) == ' ') i++;
+
+        int sign = 1;
+        if (i < s.length() && (s.charAt(i) == '+' || s.charAt(i) == '-')) {
+            sign = (s.charAt(i) == '-') ? -1 : 1;
             i++;
         }
-        while(i < s.length()){
-            char ch = s.charAt(i);
-            if(ch < '0' || ch > '9'){
-                break;
-            }
-            res = res*10 + (ch - '0');
-            if(sign*res > Integer.MAX_VALUE){
-                return Integer.MAX_VALUE;
-            }
-            if(sign*res < Integer.MIN_VALUE){
-                return Integer.MIN_VALUE;
-            }
-            i++;
-        }
-        return (int)(sign*res);
+
+        return helper(s, i, 0, sign);
     }
 }

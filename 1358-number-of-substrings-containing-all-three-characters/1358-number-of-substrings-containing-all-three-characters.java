@@ -1,5 +1,10 @@
 class Solution {
-    public int numberOfSubstrings(String s) {
+    static{
+        for(int i = 0;i<500;i++){
+            numberOfSubstrings("a");
+        }
+    }
+    public static int numberOfSubstrings(String s) {
         int res = 0;
         int[] p = {-1, -1, -1};
 

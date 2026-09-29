@@ -1,13 +1,25 @@
 class Solution {
     public int minCostToMoveChips(int[] position) {
-        int even = 0;
-        int odd = 0;
-        int ans = 0;
-        for(int p : position){
-            if(p%2==0) even++;
-            else odd++;
-            ans = Math.min(even, odd);
+        Map<Integer, Integer> positionCounts = new HashMap<>();
+        
+        for (int p : position) {
+            positionCounts.put(p, positionCounts.getOrDefault(p, 0) + 1);
         }
-        return ans;
+        
+        int evenParityChips = 0;
+        int oddParityChips = 0;
+
+        for (Map.Entry<Integer, Integer> entry : positionCounts.entrySet()) {
+            int pos = entry.getKey();
+            int count = entry.getValue();
+            
+            if ((pos & 1) == 0) {
+                evenParityChips += count;
+            } else {
+                oddParityChips += count;
+            }
+        }
+        
+        return Math.min(evenParityChips, oddParityChips);
     }
 }

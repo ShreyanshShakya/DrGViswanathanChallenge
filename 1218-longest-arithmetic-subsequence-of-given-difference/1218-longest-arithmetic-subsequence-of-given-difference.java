@@ -1,14 +1,13 @@
 class Solution {
     public int longestSubsequence(int[] arr, int difference) {
-        int n = arr.length;
-        Map<Integer, Integer> dp = new HashMap<>();
-        int ans = 0;
-        for(int a :arr){
-            int prev = dp.getOrDefault(a-difference,0);
-            int curr = prev+1;
-            dp.put(a,curr);
-            ans = Math.max(curr,ans);
+        int off = 20000;
+        int[] dp = new int[40001];
+        int best = 0;
+        for (int x : arr) {
+            int len = dp[x - difference + off] + 1;
+            dp[x + off] = len;
+            if (len > best) best = len;
         }
-        return ans;
+        return best;
     }
 }
